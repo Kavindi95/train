@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 app.use(bodyParser.json());
 
 Ticket = require('./models/trainInfo');
+OrderTickets = require('./models/orderTickets');
 
 //connect to Mongoose
 mongoose.connect('mongodb://localhost/trainticket');
@@ -70,5 +71,84 @@ app.delete('/api/trainInfo/:_id', function (req, res) {
     });
 });
 
+/*
+* Oder Tickets Information handling API
+* */
+app.get('/api/orderTickets', function (req, res) {
+    OrderTickets.getOrderTickets(function (err, orderTickets) {
+        if(err){
+            throw err;
+        }
+        res.json(orderTickets);
+    });
+});
+
+app.get('/api/orderTickets/:_id', function (req, res) {//:id means what ever id passed into it
+    OrderTickets.getOrderTicketById(req.params._id,function (err, orderTickets) {
+        if (err){
+            throw err;
+        }
+        res.json(orderTickets);
+    });
+});
+
+
+app.post('/api/orderTickets', function (req, res) {
+    var order = req.body; //save everything in form into genre object
+    OrderTickets.addOrderTicketInfo(order, function (err, order) {
+        if (err){
+            throw err;
+        }
+        res.json(order);
+    });
+});
+
+app.put('/api/orderTickets/:_id', function (req, res) {
+    var id = req.params._id;
+    var order = req.body; //save everything in form into genre object
+    OrderTickets.updateOrderTrainInfo(id, order, {},function (err, order) {
+        if (err){
+            throw err;
+        }
+        res.json(order);
+    });
+});
+
+app.delete('/api/orderTickets/:_id', function (req, res) {
+    var id = req.params._id;
+    OrderTickets.deleteOrderTrainInfo(id,function (err, order) {
+        if (err){
+            throw err;
+        }
+        res.json(order);
+    });
+});
+
+
 app.listen(3000);
 console.log('Running on port 3000....');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
