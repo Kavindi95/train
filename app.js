@@ -16,7 +16,7 @@ var db = mongoose.connection;
 * Load the application
 * */
 app.get('/', function (req,res) {
-    res.send('hello');
+    res.send('hello world');
 });
 
 /*
@@ -125,8 +125,8 @@ app.delete('/api/orderTickets/:_id', function (req, res) {
 });
 
 
-app.listen(3000);
-console.log('Running on port 3000....');
+app.listen(5000);
+console.log('Running on port 5000....');
 
 
 
