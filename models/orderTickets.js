@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 //order Tickets Schema
 var orderTicketsSchema = mongoose.Schema({
     trainId:{
-      type: String,
-      required: true
+      type: String
     },
     trainName:{
         type: String
@@ -19,8 +18,7 @@ var orderTicketsSchema = mongoose.Schema({
         type: String
     },
     userId:{
-        type: String,
-        required: true
+        type: String
     },
     create_date:{
         type: Date,
