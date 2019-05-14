@@ -52,12 +52,20 @@ input{
     margin-right: 1%;
 }
 
-.numOfTickets{
+.numOfTickets,
+.nic,
+.price,
+.discountPrice,
+.showPrice{
     margin-left: 1%;
 }
 
 .trainName,
-.numOfTickets{
+.numOfTickets,
+.nic,
+.price,
+.discountPrice,
+.showPrice{
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
