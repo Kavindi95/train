@@ -7,6 +7,7 @@ app.use(bodyParser.json());
 
 Ticket = require('./models/trainInfo');
 OrderTickets = require('./models/orderTickets');
+User = require('./models/user');
 
 //connect to Mongoose
 mongoose.connect('mongodb://localhost/trainticket');
@@ -121,6 +122,28 @@ app.delete('/api/orderTickets/:_id', function (req, res) {
             throw err;
         }
         res.json(order);
+    });
+});
+
+/*
+* Oder Tickets Information handling API
+* */
+app.get('/api/user', function (req, res) {
+    User.getuser(function (err, user) {
+        if(err){
+            throw err;
+        }
+        res.json(user);
+    });
+});
+
+app.post('/api/user', function (req, res) {
+    var user = req.body; //save everything in form into genre object
+    User.addUser(user, function (err, user) {
+        if (err){
+            throw err;
+        }
+        res.json(user);
     });
 });
 

@@ -20,6 +20,9 @@ var orderTicketsSchema = mongoose.Schema({
     userId:{
         type: String
     },
+    nic:{
+        type: String
+    },
     create_date:{
         type: Date,
         default: Date.now
@@ -49,7 +52,8 @@ module.exports.updateOrderTrainInfo = function (id, order, options, callback) {/
         numOfTickets: order.numOfTickets,
         totalPrice: order.totalPrice,
         discountPrice: order.discountPrice,
-        userId: order.userId
+        userId: order.userId,
+        nic: order.nic
 
     }//object
     OrderTickets.findOneAndUpdate(query, update, options, callback);
