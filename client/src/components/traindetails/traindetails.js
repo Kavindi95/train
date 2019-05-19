@@ -2,12 +2,24 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './traindetails.css';
+import Booktickets from "../booktickets/booktickets";
 
 //function Traindetails() {
 class Traindetails extends Component{
-    state = {
-        trainInfo: []
+    constructor(props){
+        super(props);
+        this.state = {showBookTickets: true};
+        this.toggleBookTickets = this.toggleBookTickets.bind(this)
+        this.state = {
+            trainInfo: []
+        };
     }
+
+    toggleBookTickets = () => {
+        const {showBookTickets} = this.state;
+        this.setState({showBookTickets: !showBookTickets})
+    }
+
     componentWillMount() {
         axios.get('/api/trainInfo').then((response) => {
             this.setState({
@@ -28,7 +40,7 @@ class Traindetails extends Component{
                 <td>{trainInfo.frequency}</td>
                 <td>{trainInfo.class}</td>
                 <td>{trainInfo.ticketPrice}</td>
-                <td><button type="button" class="btn btn-danger disabled">Book Train</button>
+                <td><button type="button" class="btn btn-danger disabled" onClick={this.toggleBookTickets}>Book Train</button>
                 </td>
                 </tr>
             )
@@ -54,6 +66,7 @@ class Traindetails extends Component{
                         {trainInfo}
                     </tbody>
                 </table>
+        {this.state.showBookTickets && <Booktickets />}
     </div>
 );
     }
