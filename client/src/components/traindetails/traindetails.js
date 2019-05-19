@@ -28,7 +28,8 @@ class Traindetails extends Component{
                 <td>{trainInfo.frequency}</td>
                 <td>{trainInfo.class}</td>
                 <td>{trainInfo.ticketPrice}</td>
-                <td><button type="button" class="btn btn-danger disabled">Book Train</button></td>
+                <td><button type="button" class="btn btn-danger disabled">Book Train</button>
+                </td>
                 </tr>
             )
         });
@@ -57,5 +58,5 @@ class Traindetails extends Component{
 );
     }
 }
-
 export default Traindetails;
+

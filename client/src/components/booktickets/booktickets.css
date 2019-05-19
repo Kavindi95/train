@@ -1,5 +1,5 @@
 .wrapper{
-    height: 100vh;
+    height: 70vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -9,7 +9,7 @@
 }
 
 .form-wrapper{
-    width: 400px;
+    width: 1000px;
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
@@ -19,7 +19,7 @@
 }
 
 form{
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-wrap: wrap;
 }
@@ -56,7 +56,9 @@ input{
 .nic,
 .price,
 .discountPrice,
-.showPrice{
+.showPrice,
+.submitButton,
+.govAgent{
     margin-left: 1%;
 }
 
@@ -65,7 +67,9 @@ input{
 .nic,
 .price,
 .discountPrice,
-.showPrice{
+.showPrice,
+.submitButton,
+.govAgent{
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
@@ -76,10 +80,19 @@ input{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .submit{
     background-color: #cfcfcf;
     font-family: sans-serif;
+}
+
+input[type=checkbox]:checked~.remove-check {
+    display: none;
+}
+input[type=checkbox]:checked~.nic {
+    display: block;
+}
+.nic {
+    display: none;
 }

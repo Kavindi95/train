@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './booktickets.css';
+import Creditcardpayments from './creditcardpayments';
+import MobilePayments from './mobilepayments';
 
 class Booktickets extends Component{
     constructor(props) {
         super(props);
+        this.state = {showCreditPay: true};
+        this.state = {showMobilePay: true};
+        this.toggleCreditPay = this.toggleCreditPay.bind(this)
+        this.toggleMobilePay = this.toggleMobilePay.bind(this)
         this.state = {
             trainInfo: [],
             user: [],
@@ -16,6 +22,14 @@ class Booktickets extends Component{
                 discountPrice: ''
             }
         };
+    }
+    toggleCreditPay = () => {
+        const {showCreditPay} = this.state;
+        this.setState({showCreditPay: !showCreditPay})
+    }
+    toggleMobilePay = () => {
+        const {showMobilePay} = this.state;
+        this.setState({showMobilePay: !showMobilePay})
     }
     componentWillMount() {
         axios.get('/api/trainInfo').then((response) => {
@@ -52,16 +66,25 @@ class Booktickets extends Component{
         //get price
         var totalPrice = ticketPrice*num_of_tickets;
 
-        //get user data
-        let user = this.state.user;
-        var udata = user.filter(user => user.nic === nic)
-        var gov = udata[0];
-        var govAgent = gov.govAgent;
+        if(nic !== "") {
+            //get user data
+            let user = this.state.user;
+            var udata = user.filter(user => user.nic === nic)
+            var gov = udata[0];
+            var govAgent = gov.govAgent;
 
-        if(govAgent === "1"){
-            var discountPrice = totalPrice * discount;
+            if (govAgent === "1") {
+                var discountPrice = totalPrice * discount;
+            } else {
+                discountPrice = "0";
+            }
         }
-        console.log(discountPrice);
+        //set value into totalPrice and discountPrice in newOrderData
+        let newOrderData = Object.assign({}, this.state.newOrderData);    //creating copy of object
+        newOrderData.totalPrice = totalPrice;                        //updating value
+        newOrderData.discountPrice = discountPrice;
+        this.setState({newOrderData});
+
 
     }
     render()
@@ -71,6 +94,8 @@ class Booktickets extends Component{
         <div className="form-wrapper">
         <h2>Book Tickets</h2>
     <form>
+    <lable htmlForm="govAgent">Government Agent</lable>
+    <input type="checkbox" id="reveal-email" role="button" />
     <div className="trainName">
         <lable htmlForm="trainName">Train Name</lable>
     <input type="text" name="trainName" value={this.state.newOrderData.trainName} onChange={(e) => {
@@ -96,6 +121,7 @@ class Booktickets extends Component{
     }} />
     </div>
     <div className="showPrice">
+
         <button type="button" class="btn btn-info" onClick={this.showPrice.bind(this)}>Show price</button>
     </div>
     <div className="price">
@@ -115,9 +141,14 @@ class Booktickets extends Component{
     }} />
     </div>
     <div className="submitButton">
-        <button type="submit" class="btn btn-success disabled" onClick={this.addOrder.bind(this)}>Book Ticket</button>
+        <button type="button" class="btn btn-primary" onClick={this.toggleCreditPay}>Credit Card Payments</button>
+    </div>
+    <div className="submitButton">
+        <button type="button" class="btn btn-primary" onClick={this.toggleMobilePay}>Mobile Payments</button>
     </div>
     </form>
+        {this.state.showCreditPay && <Creditcardpayments />}
+        {this.state.showMobilePay && <MobilePayments />}
     </div>
     </div>
     );
