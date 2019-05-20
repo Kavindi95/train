@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 class Creditcardpayments extends Component{
 
@@ -11,7 +12,8 @@ class Creditcardpayments extends Component{
                 cvc: '',
                 chname: '',
                 email: '',
-                contnum: ''
+                contnum: '',
+                message: ''
             }
         };
     }
@@ -23,12 +25,14 @@ class Creditcardpayments extends Component{
         var chname = this.state.creditPaymentData.chname;
         var email = this.state.creditPaymentData.email;
         var contnum = this.state.creditPaymentData.contnum;
-        console.log(amount);
-        console.log(ccn);
-        console.log(cvc);
-        console.log(chname);
-        console.log(email);
-        console.log(contnum);
+        var message = "hi";
+
+        //send email
+        axios.post('/api/form', {
+            chname:chname,
+            email:email,
+            message:message
+        })
     }
     render() {
         return(

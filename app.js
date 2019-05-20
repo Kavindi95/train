@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}))
 
 Ticket = require('./models/trainInfo');
 OrderTickets = require('./models/orderTickets');
@@ -18,6 +20,46 @@ var db = mongoose.connection;
 * */
 app.get('/', function (req,res) {
     res.send('hello world');
+});
+
+app.post('/api/form', (req, res) => {
+    nodemailer.createTestAccount((err, account) => {
+        const htmlEmail = `
+        <h3>Contact Details</h3>
+        <ul>
+            <li>Name: ${req.body.name}</li>
+            <li>Email: ${req.body.email}</li>
+        </ul>
+        <h3>Message</h3>
+        <p>${req.body.message}</p>
+        `
+
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: '587',
+            auth: {
+                user: 'arnold.runolfsdottir@ethereal.email',
+                pass: 'Qw6RzHyvVGMCgcM6ZV'
+            }
+        })
+
+        let mailOptions = {
+            from: 'test@testaccount.com',
+            to: 'arnold.runolfsdottir@ethereal.email',
+            replyTo: 'test@testaccount.com',
+            subject: 'New message',
+            text: req.body.message,
+            html: htmlEmail
+        }
+        transporter.sendMail(mailOptions, (err,info) => {
+            if(err){
+                console.log(err);
+            }
+
+            //console.log('Message sent: %s', info.message)
+            console.log('Message URL: %s', nodemailer.getTestMessageUrl(info))
+        })
+    })
 });
 
 /*
