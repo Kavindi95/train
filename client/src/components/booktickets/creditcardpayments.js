@@ -25,7 +25,7 @@ class Creditcardpayments extends Component{
         var chname = this.state.creditPaymentData.chname;
         var email = this.state.creditPaymentData.email;
         var contnum = this.state.creditPaymentData.contnum;
-        var message = "hi";
+        var message = "Rs"+amount+".00 has been deducted from your Dialog Mobile Account";
 
         //send email
         axios.post('/api/form', {
@@ -33,6 +33,11 @@ class Creditcardpayments extends Component{
             email:email,
             message:message
         })
+        //send SMS
+        axios.post(`/api/sms/?contnum=${contnum}&message=${message}`)
+            .catch(err=>{console.error(err)})
+
+        console.log("successfully sent");
     }
     render() {
         return(

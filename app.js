@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
+
 var mongoose = require('mongoose');
 
 app.use(bodyParser.json());
@@ -10,6 +11,11 @@ app.use(bodyParser.urlencoded({extended:false}))
 Ticket = require('./models/trainInfo');
 OrderTickets = require('./models/orderTickets');
 User = require('./models/user');
+
+//Data to send SMS
+const accountSid = 'AC7631669593e6f33242716bf112b5af0e';
+const authToken = '086d1503a8d9d148141467e8a8993c2b';
+const client = require('twilio')(accountSid, authToken);
 
 //connect to Mongoose
 mongoose.connect('mongodb://localhost/trainticket');
@@ -22,6 +28,23 @@ app.get('/', function (req,res) {
     res.send('hello world');
 });
 
+/*
+* Send sms API
+* */
+app.post('/api/sms',(req,res)=>{
+    console.log(req.body)
+    const {contnum,message}=req.query
+
+    client.messages.create({
+        body:message,
+        to:"+94"+contnum,
+        from:'+12016057678'
+    }).then((message)=>console.log(message.body)).catch(err=>{console.log(err)});
+
+})
+/*
+* Send email API
+* */
 app.post('/api/form', (req, res) => {
     nodemailer.createTestAccount((err, account) => {
         const htmlEmail = `
