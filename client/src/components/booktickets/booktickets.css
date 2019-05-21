@@ -1,11 +1,12 @@
 .wrapper{
-    height: 70vh;
+    height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #258ea6;
+    background-image: url(./bookticket.jpg);
 }
 
 .form-wrapper{
@@ -19,7 +20,7 @@
 }
 
 form{
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
@@ -48,11 +49,8 @@ input{
     border: 1px solid #cfcfcf;
 }
 
-.trainName{
-    margin-right: 1%;
-}
-
 .numOfTickets,
+.trainName,
 .nic,
 .price,
 .discountPrice,
@@ -69,7 +67,8 @@ input{
 .discountPrice,
 .showPrice,
 .submitButton,
-.govAgent{
+.govAgent,
+.confirmPayment{
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
@@ -82,9 +81,11 @@ input{
     flex-direction: column;
 }
 
-.submit{
-    background-color: #cfcfcf;
-    font-family: sans-serif;
+.confirmPayment{
+    width: 40%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
 }
 
 input[type=checkbox]:checked~.remove-check {

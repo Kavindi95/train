@@ -10,3 +10,11 @@ li{
     line-height: 2rem;
     border-bottom: 1px dotted #777777;
 }
+
+.traindetails{
+    background-color: #cfcfcf;
+}
+
+.trainPage{
+    background-image: url(./traindetails1.jpg);
+}

@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({extended:false}))
 Ticket = require('./models/trainInfo');
 OrderTickets = require('./models/orderTickets');
 User = require('./models/user');
+creditPayments = require('./models/creditPayments');
+mobilePayments = require('./models/mobilePayments');
 
 //Data to send SMS
 const accountSid = 'AC7631669593e6f33242716bf112b5af0e';
@@ -38,7 +40,7 @@ app.post('/api/sms',(req,res)=>{
     client.messages.create({
         body:message,
         to:"+94"+contnum,
-        from:'+12016057678'
+        from:'' //enter your twilio genearted number here
     }).then((message)=>console.log(message.body)).catch(err=>{console.log(err)});
 
 })
@@ -191,7 +193,7 @@ app.delete('/api/orderTickets/:_id', function (req, res) {
 });
 
 /*
-* Oder Tickets Information handling API
+* User Information handling API
 * */
 app.get('/api/user', function (req, res) {
     User.getuser(function (err, user) {
@@ -212,6 +214,49 @@ app.post('/api/user', function (req, res) {
     });
 });
 
+/*
+* Credit Card Payments handling API
+* */
+app.get('/api/creditPay', function (req, res) {
+    creditPayments.getCreditPaymentData(function (err, credit) {
+        if(err){
+            throw err;
+        }
+        res.json(credit);
+    });
+});
+
+app.post('/api/creditPay', function (req, res) {
+    var credit = req.body; //save everything in form into genre object
+    creditPayments.addCreditPaymentData(credit, function (err, credit) {
+        if (err){
+            throw err;
+        }
+        res.json(credit);
+    });
+});
+
+/*
+* Mobile Payments handling API
+* */
+app.get('/api/mobilePay', function (req, res) {
+    mobilePayments.getMobilePaymentData(function (err, mobile) {
+        if(err){
+            throw err;
+        }
+        res.json(mobile);
+    });
+});
+
+app.post('/api/mobilePay', function (req, res) {
+    var mobile = req.body; //save everything in form into genre object
+    mobilePayments.addMobilePaymentData(mobile, function (err, mobile) {
+        if (err){
+            throw err;
+        }
+        res.json(mobile);
+    });
+});
 
 app.listen(5000);
 console.log('Running on port 5000....');

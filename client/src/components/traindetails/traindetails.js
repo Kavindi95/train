@@ -40,14 +40,14 @@ class Traindetails extends Component{
                 <td>{trainInfo.frequency}</td>
                 <td>{trainInfo.class}</td>
                 <td>{trainInfo.ticketPrice}</td>
-                <td><button type="button" class="btn btn-danger disabled" onClick={this.toggleBookTickets}>Book Train</button>
+                <td><button type="button" class="btn btn-danger disabled" onClick={this.toggleBookTickets}>Reserve Train</button>
                 </td>
                 </tr>
             )
         });
     return (
-        <div>
-            <h2>Train Details</h2>
+        <div className="trainPage">
+            <h2 className="traindetails">Train Details</h2>
                 <table class="table table-hover">
                     <thead>
                     <tr class="table-secondary">

@@ -108,6 +108,7 @@ class Booktickets extends Component{
                     newOrderData.trainName = e.target.value;
                     this.setState({newOrderData})
                 }} />
+                 <small id="trainName" class="form-text text-muted">You should Enter Train Name as in List</small>
             </div>
             <div className="numOfTickets">
                 <lable htmlForm="numOfTickets">Number of Tickets</lable>
@@ -143,6 +144,9 @@ class Booktickets extends Component{
                 newOrderData.discountPrice = e.target.value;
                 this.setState({newOrderData})
             }} />
+            </div>
+            <div className="submitButton">
+                <button type="button" class="btn btn-info" onClick={this.addOrder.bind(this)}>Confirm Reservation</button>
             </div>
             <div className="submitButton">
                 <button type="button" class="btn btn-primary" onClick={this.toggleCreditPay}>Credit Card Payments</button>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import './booktickets.css';
 
 class Creditcardpayments extends Component{
 
@@ -27,17 +28,28 @@ class Creditcardpayments extends Component{
         var contnum = this.state.creditPaymentData.contnum;
         var message = "Rs"+amount+".00 has been deducted from your Dialog Mobile Account";
 
-        //send email
-        axios.post('/api/form', {
-            chname:chname,
-            email:email,
-            message:message
-        })
-        //send SMS
-        axios.post(`/api/sms/?contnum=${contnum}&message=${message}`)
-            .catch(err=>{console.error(err)})
+        if (contnum !== "") {
+            //send email
+            axios.post('/api/form', {
+                chname: chname,
+                email: email,
+                message: message
+            })
+            //send SMS
+            axios.post(`/api/sms/?contnum=${contnum}&message=${message}`)
+                .catch(err => {
+                    console.error(err)
+                })
 
-        console.log("successfully sent");
+            console.log("successfully sent");
+
+            //store data in database using API
+            axios.post('/api/creditPay', this.state.creditPaymentData).then((response) => {
+                this.setState({
+                    creditPayments: response.data
+                })
+            });
+        }
     }
     render() {
         return(
@@ -99,8 +111,9 @@ class Creditcardpayments extends Component{
                             this.setState({creditPaymentData})
                         }}/>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-info" onClick={this.grantCreditPayment.bind(this)}>Submit</button>
+                    <div className="confirmPayment">
+                        <label for="lable">.........</label>
+                        <button type="button" class="btn btn-info" onClick={this.grantCreditPayment.bind(this)}>Confirm Payment</button>
                     </div>
                 </form>
             </div>

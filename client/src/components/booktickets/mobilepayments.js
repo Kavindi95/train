@@ -18,11 +18,22 @@ class MobilePayments extends Component{
         var contnum = this.state.mobilePaymentData.contnum;
         var pin = this.state.mobilePaymentData.pin;
         var amount = this.state.mobilePaymentData.amount;
-        var message = "Rs"+amount+".00 has been deducted from your Dialog Mobile Account";
+        var message = "Rs" + amount + ".00 has been deducted from your Dialog Mobile Account";
 
+        if (contnum !== ""){
         //send SMS
-        axios.post(`/api/sms/?contnum=${contnum}&message=${message}`)
-            .catch(err=>{console.error(err)})
+            axios.post(`/api/sms/?contnum=${contnum}&message=${message}`)
+                .catch(err => {
+                    console.error(err)
+                })
+
+        //store data in database using API
+        axios.post('/api/mobilePay', this.state.mobilePaymentData).then((response) => {
+            this.setState({
+                mobilePayments: response.data
+            })
+        });
+    }
 
     }
 
@@ -58,8 +69,8 @@ class MobilePayments extends Component{
                             this.setState({mobilePaymentData})
                         }} />
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-info" onClick={this.grantMobilePayment.bind(this)}>Submit</button>
+                    <div classname="confirmPayment">
+                        <button type="button" class="btn btn-info" onClick={this.grantMobilePayment.bind(this)}>Confirm Payment</button>
                     </div>
                 </form>
             </div>
